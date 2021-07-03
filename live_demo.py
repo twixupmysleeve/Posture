@@ -3,6 +3,7 @@ import mediapipe as mp
 import SquatPosture as sp
 import numpy as np
 import tensorflow as tf
+from utils import *
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -60,7 +61,7 @@ with mp_pose.Pose() as pose:
 
         print(label, np.round(output[0][4],3))
 
-        # print(output)
+        label_final_results(image, label)
 
         cv2.imshow('MediaPipe Pose', image)
 

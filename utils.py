@@ -86,3 +86,7 @@ def label_params(frame, params, coords):
     print(y_knee)
     cv2.putText(frame, str(np.round(params[4], 2)), (int(y_knee[0]), int(y_knee[1]) - 35),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+
+def label_final_results(image, label):
+    pass
