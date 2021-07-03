@@ -19,6 +19,9 @@ if __name__=="__main__":
         count=0
     else:
         count=int(processed[-1][:3])
+        count+=1
+
+    print(count)
 
     for i in raw:
         file=f"data/raw/{i}"
