@@ -53,10 +53,10 @@ def label_params(frame, params, coords):
 
 directory = 'data/processed/'
 
-# video_names = sorted(os.listdir(directory))
+video_names = sorted(os.listdir(directory))
 
-videos_to_use = ["000","001","002","003","004","005","006","007","008","009","010","023"]
-video_names = [video + "_squat.mp4" for video in videos_to_use]
+# videos_to_use = ["000","001","002","003","004","005","006","007","008","009","010","023"]
+# video_names = [video + "_squat.mp4" for video in videos_to_use]
 
 file = open("data/input_vectors.csv", "w")
 
