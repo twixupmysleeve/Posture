@@ -45,6 +45,9 @@ with mp_pose.Pose() as pose:
 
         output = model.predict(flat_params.T)
 
+        output[0][2] *= 10
+        output[0][4] *= 3
+
         output = output * (1/np.sum(output))
 
         output_name = ['c','k','h','r','x','i']
@@ -52,14 +55,14 @@ with mp_pose.Pose() as pose:
         label = ""
 
         for i in range(1,4):
-            label += output_name[i] if output[0][i] > 0.35 else ""
+            label += output_name[i] if output[0][i] > 0.4 else ""
 
         if label == "":
             label = "c"
 
-        label += 'x' if output[0][4] > 0.1 else ''
+        label += 'x' if output[0][4] > 0.04 else ''
 
-        print(label, np.round(output[0][4],3))
+        print(label, output)
 
         label_final_results(image, label)
 

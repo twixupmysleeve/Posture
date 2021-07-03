@@ -68,7 +68,7 @@ def get_params(results):
     z_mouth = (points["MOUTH_LEFT"][2] + points["MOUTH_RIGHT"][2]) / 2
 
     theta_neck = get_angle(np.array([0, 0, -1]),
-                           points["NOSE"] - points["MID_SHOULDER"])
+                           points["NOSE"] - points["MID_HIP"])
 
     # theta_neck = get_angle(points["MID_HIP"] - points["MID_SHOULDER"],
     #                             points["NOSE"] - points["MID_SHOULDER"])
