@@ -9,16 +9,24 @@ import numpy as np
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-# For webcam input:
-cap = cv2.VideoCapture("knee_squat.mp4")
+# For video input:
+cap = cv2.VideoCapture("data/processed/009_squat.mp4")
+
 
 def landmarks_list_to_array(landmark_list, image_shape):
     rows, cols, _ = image_shape
+
+    if landmark_list is None:
+        return None
+
     return np.asarray([(lmk.x * cols, lmk.y * rows)
                        for lmk in landmark_list.landmark])
 
 
 def label_params(frame, params, coords):
+
+    if coords is None:
+        return
 
     params = params * 180/3.14159265
 
@@ -46,6 +54,7 @@ def label_params(frame, params, coords):
     print(y_knee)
     cv2.putText(frame, str(np.round(params[4], 2)), (int(y_knee[0]), int(y_knee[1]) - 35),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
 
 with mp_pose.Pose(
         min_detection_confidence=0.5,

@@ -16,8 +16,11 @@ def get_angle(v1, v2):
     return theta
 
 
-
 def get_params(results):
+
+    if results.pose_landmarks is None:
+        return np.array([0, 0, 0, 0, 0])
+
     points = {}
     nose = results.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE]
     points["NOSE"] = np.array([nose.x, nose.y, nose.z])
@@ -100,4 +103,4 @@ def get_params(results):
 
     params = np.array([theta_neck, theta_k, theta_h, z, ky])
 
-    return params
+    return np.round(params, 2)
