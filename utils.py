@@ -89,4 +89,17 @@ def label_params(frame, params, coords):
 
 
 def label_final_results(image, label):
-    pass
+    cv2.rectangle(
+        image,
+        (0, 0),
+        (225, 73),
+        (245, 117, 16)
+    )
+
+    cv2.putText(
+        image,
+        label,
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (255, 255, 255),
+    )
