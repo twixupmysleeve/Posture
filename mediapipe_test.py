@@ -8,7 +8,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # For webcam input:
-cap = cv2.VideoCapture('knee_squat.mp4')
+cap = cv2.VideoCapture("knee_squat.mp4")
 
 with mp_pose.Pose(
         min_detection_confidence=0.5,
