@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
+from pycm import *
+import seaborn as sns
 
-USE_MODEL = False
+USE_MODEL = True
 
 input, output = get_data()
 
@@ -53,6 +55,9 @@ if not USE_MODEL:
     plt.show()
 else:
     model = tf.keras.models.load_model("working_model_1")
+    preds = model.predict(test_features)
+    cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
+    print(cm.table)
 
 
 
