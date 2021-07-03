@@ -1,5 +1,8 @@
+import pprint
+
+import pandas as pd
 import tensorflow as tf
-from create_data_matrices import get_data
+from data_processing.create_data_matrices import get_data
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow import keras
@@ -57,7 +60,18 @@ else:
     model = tf.keras.models.load_model("working_model_1")
     preds = model.predict(test_features)
     cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
-    print(cm.table)
+    # pprint.pprint(cm.table)
+
+    df = pd.DataFrame()
+    # df.set_index(keys=[], inplace=True)
+
+    for actual, preds in cm.table.items():
+        for also, pred in preds.items():
+            print(actual, also, pred)
+            # df[also][]=
+
+
+
 
 
 
