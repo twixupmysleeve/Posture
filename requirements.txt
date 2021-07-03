@@ -6,3 +6,6 @@ tensorflow
 keras
 torch
 matplotlib
+seaborn
+pycm
+pandas
