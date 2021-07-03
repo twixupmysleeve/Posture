@@ -89,17 +89,30 @@ def label_params(frame, params, coords):
 
 
 def label_final_results(image, label):
-    cv2.rectangle(
-        image,
-        (0, 0),
-        (225, 73),
-        (245, 117, 16)
+    expanded_labels = {
+        "c": "Correct Form",
+        "k": "Knee Ahead",
+        "h": "Upper Body Bent",
+        "r": "Rounded",
+        "x": "Correct Depth"
+    }
+
+    image_width, image_height, _ = image.shape
+
+    label_list = [character for character in label]
+    described_label = list(map(lambda x: expanded_labels[x], label_list))
+
+    cv2.rectangle(image,
+        (0, 0), (image_width, 74),
+        (245, 117, 16),
+        -1
     )
 
     cv2.putText(
-        image,
-        label,
+        image, " + ".join(word for word in described_label),
+        (0, 43),
         cv2.FONT_HERSHEY_SIMPLEX,
-        1,
+        0.6,
         (255, 255, 255),
+        2
     )
