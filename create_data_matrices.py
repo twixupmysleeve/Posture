@@ -15,14 +15,18 @@ def get_data():
 
     for outl in output_reader:
         if outl[-1] == 1:
-            input_reader.next()
+            next(input_reader)
             continue
-        inl = input_reader.next()
+        inl = next(input_reader)
+
+        # print("#########@#@#@")
+        # print(outl)
+        # print(inl)
         assert outl[0] == inl[0]
         assert outl[1] == inl[1]
 
-        outputs.append((outl[0], outl[1], outl[2], outl[3], outl[4]))
-        inputs.append((inl[0], inl[1], inl[2], inl[3], inl[4]))
+        outputs.append((float(outl[0]), float(outl[1]), float(outl[2]), float(outl[3]), float(outl[4])))
+        inputs.append((float(inl[0]), float(inl[1]), float(inl[2]), float(inl[3]), float(inl[4])))
 
     print(f'Processed {line_count} lines.')
 

@@ -93,7 +93,7 @@ for video_name in video_names:
 
             file.write("{},{},{},{},{},{},{}\n".format(
                 video_name[0:3],
-                frame_number,
+                frame_number+1,
                 params[0],
                 params[1],
                 params[2],

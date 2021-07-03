@@ -5,7 +5,7 @@ from torch.optim import Adam
 
 
 class Model(nn.Module):
-    def __init__(self, input_dims=5, n_actions=5, fc1_dims=8, fc2_dims=8, lr=0.003):
+    def __init__(self, input_dims=[8], n_actions=5, fc1_dims=8, fc2_dims=8, lr=0.003):
         super(Model, self).__init__()
 
         self.input =  nn.Linear(input_dims, fc1_dims)
