@@ -7,11 +7,11 @@ from tensorflow.keras import layers
 
 from sklearn.metrics import plot_confusion_matrix
 
-USE_MODEL = True
+USE_MODEL = False
 
 input, output = get_data()
 
-split = int(0.9 * len(input))
+split = int(0.8 * len(input))
 (train_features, train_labels), (test_features, test_labels) = (input[:split], output[:split]), \
                                                                (input[split:], output[split:])
 
@@ -37,8 +37,8 @@ if not USE_MODEL:
 
     print(f"Validation Loss: {valid_loss}\nValidation Accuracy: {valid_acc}")
 
-    matrix = tf.math.confusion_matrix(tf.Tensor(test_labels), tf.Tensor(model.predict(test_features)))
-    print(matrix)
+    # matrix = tf.math.confusion_matrix(tf.Tensor(test_labels), tf.Tensor(model.predict(test_features)))
+    # print(matrix)
 
     model.save("working_model_1")
 
