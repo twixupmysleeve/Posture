@@ -14,6 +14,7 @@ def get_data():
     inputs = []
 
     for outl in output_reader:
+        line_count += 1
         if outl[-1] == 1:
             next(input_reader)
             continue
@@ -25,8 +26,8 @@ def get_data():
         assert outl[0] == inl[0]
         assert outl[1] == inl[1]
 
-        outputs.append((float(outl[0]), float(outl[1]), float(outl[2]), float(outl[3]), float(outl[4])))
-        inputs.append((float(inl[0]), float(inl[1]), float(inl[2]), float(inl[3]), float(inl[4])))
+        outputs.append((float(outl[2]), float(outl[3]), float(outl[4]), float(outl[5]), float(outl[6])))
+        inputs.append((float(inl[2]), float(inl[3]), float(inl[4]), float(inl[5]), float(inl[6])))
 
     print(f'Processed {line_count} lines.')
 
