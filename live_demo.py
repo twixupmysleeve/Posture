@@ -2,18 +2,18 @@ import cv2
 import mediapipe as mp
 import SquatPosture as sp
 import numpy as np
+import tensorflow as tf
 from utils import *
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # For video input:
-cap = cv2.VideoCapture("data/processed/009_squat.mp4")
+cap = cv2.VideoCapture(0)
 
+model = tf.keras.models.load_model("working_model_1")
 
-with mp_pose.Pose(
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5) as pose:
+with mp_pose.Pose() as pose:
     while cap.isOpened():
         success, image = cap.read()
         if not success:
@@ -22,28 +22,46 @@ with mp_pose.Pose(
             # continue
             break
 
-        # Flip the image horizontally for a later selfie-view display, and convert
-        # the BGR image to RGB.
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # To improve performance, optionally mark the image as not writeable to
-        # pass by reference.
         image.flags.writeable = False
+
         results = pose.process(image)
 
-        # Draw the pose annotation on the image.
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-        image_hight, image_width, _ = image.shape
-
-        params = sp.get_params(results)
-        # print(params)
 
         mp_drawing.draw_landmarks(
             image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-        coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
-        label_params(image, params, coords)
+        params = sp.get_params(results)
+
+        if params is None:
+            print("NO HUMAN!")
+            continue
+
+        flat_params = np.reshape(params, (5,1))
+
+        # print(flat_params)
+
+        output = model.predict(flat_params.T)
+
+        output = output * (1/np.sum(output))
+
+        output_name = ['c','k','h','r','x','i']
+
+        label = ""
+
+        for i in range(1,4):
+            label += output_name[i] if output[0][i] > 0.35 else ""
+
+        if label == "":
+            label = "c"
+
+        label += 'x' if output[0][4] > 0.1 else ''
+
+        print(label, np.round(output[0][4],3))
+
+        label_final_results(image, label)
 
         cv2.imshow('MediaPipe Pose', image)
 
