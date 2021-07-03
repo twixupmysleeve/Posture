@@ -5,8 +5,6 @@ import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
 
-from sklearn.metrics import plot_confusion_matrix
-
 USE_MODEL = False
 
 input, output = get_data()
