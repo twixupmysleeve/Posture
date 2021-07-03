@@ -21,7 +21,7 @@ split = int(0.8 * len(input))
 if not USE_MODEL:
 
     model = tf.keras.Sequential([
-        tf.keras.layers.Dense(16, activation='relu'),
+        # tf.keras.layers.Dense(1, activation='relu'),
         tf.keras.layers.Dense(5, activation='sigmoid'),
     ])
 

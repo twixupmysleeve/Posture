@@ -49,7 +49,7 @@ def label_final_results(image, label):
     expanded_labels = {
         "c": "Correct Form",
         "k": "Knee Ahead",
-        "h": "Upper Body Bent",
+        "h": "Overbending",
         "r": "Rounded",
         "x": "Correct Depth"
     }
@@ -60,7 +60,7 @@ def label_final_results(image, label):
     described_label = list(map(lambda x: expanded_labels[x], label_list))
 
     cv2.rectangle(image,
-        (0, 0), (image_width, 74),
+        (0, 0), (image_height, 74),
         (245, 117, 16),
         -1
     )
