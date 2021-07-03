@@ -1,4 +1,3 @@
-
 import csv
 import cv2
 
@@ -9,6 +8,7 @@ def get_total_frames(video):
     frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
     cap.release()
     return frames
+
 
 rows = []
 
@@ -50,4 +50,3 @@ for row in rows:
         frame_number = 0
 
 file.close()
-
