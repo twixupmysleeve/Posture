@@ -8,7 +8,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # For video input:
-cap = cv2.VideoCapture("data/processed/009_squat.mp4")
+cap = cv2.VideoCapture("data/processed/017_squat.mp4")
 
 
 with mp_pose.Pose(

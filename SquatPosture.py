@@ -16,6 +16,10 @@ def get_angle(v1, v2):
     return theta
 
 
+def get_length(v):
+    return np.dot(v, v)**0.5
+
+
 def get_params(results):
 
     if results.pose_landmarks is None:
@@ -87,11 +91,24 @@ def get_params(results):
 
     theta_h = (theta_h1 + theta_h2) / 2
 
+    torso_length = get_length(points['MID_SHOULDER'] - points['MID_HIP'])
+    left_thigh_length = get_length(points['LEFT_KNEE'] - points['LEFT_HIP'])
+    right_thigh_length = get_length(points['RIGHT_KNEE'] - points['RIGHT_HIP'])
+    left_tibula_length = get_length(points['LEFT_KNEE'] - points['LEFT_HEEL'])
+    right_tibula_length = get_length(points['RIGHT_KNEE'] - points['RIGHT_HEEL'])
+
+    thigh_length = (left_thigh_length + right_thigh_length) / 2
+    tibula_length = (left_tibula_length + right_tibula_length) / 2
+
+    length_normalization_factor = (1 / (tibula_length))**0.5
+
     z1 = (points["RIGHT_ANKLE"][2] + points["RIGHT_HEEL"][2]) / 2 - points["RIGHT_FOOT_INDEX"][2]
 
     z2 = (points["LEFT_ANKLE"][2] + points["LEFT_HEEL"][2]) / 2 - points["LEFT_FOOT_INDEX"][2]
 
     z = (z1 + z2) / 2
+
+    z *= length_normalization_factor
 
     left_foot_y = (points["LEFT_ANKLE"][1] + points["LEFT_HEEL"][1] + points["LEFT_FOOT_INDEX"][1]) / 3
     right_foot_y = (points["RIGHT_ANKLE"][1] + points["RIGHT_HEEL"][1] + points["RIGHT_FOOT_INDEX"][1]) / 3
@@ -100,6 +117,15 @@ def get_params(results):
     right_ky = points["RIGHT_KNEE"][1] - right_foot_y
 
     ky = (left_ky + right_ky) / 2
+
+    ky *= length_normalization_factor
+
+    left_foot = points["LEFT_HEEL"] - points["LEFT_FOOT_INDEX"]
+    theta_left_foot = get_angle(left_foot, np.array([left_foot[0], left_foot[1], points["LEFT_FOOT_INDEX"][2]]))
+    right_foot = points["RIGHT_HEEL"] - points["RIGHT_FOOT_INDEX"]
+    theta_right_foot = get_angle(right_foot, np.array([right_foot[0], right_foot[1], points["RIGHT_FOOT_INDEX"][2]]))
+
+    theta_foot = (theta_right_foot+theta_left_foot)/2
 
     params = np.array([theta_neck, theta_k, theta_h, z, ky])
 

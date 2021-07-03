@@ -63,27 +63,27 @@ def label_params(frame, params, coords):
     params = params * 180/3.14159265
 
     neck = (coords[11]+coords[12])/2
-    print(neck)
+    # print(neck)
     cv2.putText(frame, str(np.round(params[0], 2)), (int(neck[0]), int(neck[1]) + 5),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     knee = (coords[25] + coords[26]) / 2
-    print(knee)
+    # print(knee)
     cv2.putText(frame, str(np.round(params[1], 2)), (int(knee[0]), int(knee[1]) - 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     hip = (coords[23]+coords[24])/2
-    print(hip)
+    # print(hip)
     cv2.putText(frame, str(np.round(params[2], 2)), (int(hip[0]), int(hip[1]) - 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     ankle = (coords[27] + coords[28]) / 2
-    print(ankle)
+    # print(ankle)
     cv2.putText(frame, str(np.round(params[3], 2)), (int(ankle[0]), int(ankle[1]) - 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     y_knee = (coords[25] + coords[26]) / 2
-    print(y_knee)
+    # print(y_knee)
     cv2.putText(frame, str(np.round(params[4], 2)), (int(y_knee[0]), int(y_knee[1]) - 35),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 

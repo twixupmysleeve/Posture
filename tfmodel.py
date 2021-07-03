@@ -1,13 +1,13 @@
 import tensorflow as tf
-from create_data_matrices import get_data
+from data_processing.create_data_matrices import get_data
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
-from pycm import *
-import seaborn as sns
+# from pycm import *
+# import seaborn as sns
 
-USE_MODEL = True
+USE_MODEL = False
 
 input, output = get_data()
 
@@ -19,10 +19,10 @@ if not USE_MODEL:
 
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(16, activation='relu'),
-        tf.keras.layers.Dense(5),
+        tf.keras.layers.Dense(5, activation='sigmoid'),
     ])
 
-    opt = tf.keras.optimizers.Adam(learning_rate=0.001, decay=0.00001)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.003)
 
     model.compile(loss=tf.keras.losses.MeanSquaredError(),
                   metrics=['accuracy'],
@@ -56,8 +56,8 @@ if not USE_MODEL:
 else:
     model = tf.keras.models.load_model("working_model_1")
     preds = model.predict(test_features)
-    cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
-    print(cm.table)
+    # cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
+    # print(cm.table)
 
 
 
