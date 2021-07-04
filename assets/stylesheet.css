@@ -14,8 +14,8 @@ body {
 
 .main {
     /* background-color: #013e54; */
-    height: 100vh;
-    width: 100vw;
+    height: auto;
+    width: auto;
     align-items: center;
     justify-content: center;
 }
@@ -27,7 +27,7 @@ body {
 }
 
 .logo {
-    height: 20vh;
+    height: 17.5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +35,7 @@ body {
 
 .feed {
     display: flex;
-    max-width: 65vw;
+    width: 65vw;
     align-items: center;
     justify-content: center;
     padding: 10px;
@@ -51,10 +51,21 @@ body {
     position: relative;
 }
 
-.button-container {
-    position: fixed;
-    z-index: 1;
+.button-row {
+    align-items: center;
+    justify-content: center;
+    width: 65vw;
 }
+
+.choices {
+    color: white;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+}
+
 .table {
     margin: auto;
     width: auto;
