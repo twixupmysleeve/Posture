@@ -3,7 +3,7 @@ sys.path.append('../../')
 
 import cv2
 import mediapipe as mp
-import SquatPosture as sp
+import Posture.SquatPosture as sp
 import numpy as np
 import os
 from utils import *
