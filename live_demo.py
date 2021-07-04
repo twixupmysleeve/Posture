@@ -56,7 +56,7 @@ with mp_pose.Pose() as pose:
 
         output = model.predict(flat_params.T)
 
-        output[0][2] *= 10
+        output[0][2] *= 5
         output[0][4] *= 3
 
         output = output * (1 / np.sum(output))
