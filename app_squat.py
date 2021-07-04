@@ -16,13 +16,14 @@ model = tf.keras.models.load_model("working_model_1")
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        self.video = cv2.VideoCapture('./data/demo_files/correct.mov')
 
     def __del__(self):
         self.video.release()
 
 def gen(camera):
     cap = camera.video
+    i=0
     with mp_pose.Pose(
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5) as pose:
@@ -33,51 +34,62 @@ def gen(camera):
             if not success:
                 print("Ignoring empty camera frame.")
                 # If loading a video, use 'break' instead of 'continue'.
-                continue
-                # break
+                # continue
+                break
+
+            image_height, image_width, _ = image.shape
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
 
-            results = pose.process(image)
+            dim=(image_width//5, image_height//5)
+
+            resized_image = cv2.resize(image, dim)
 
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            image_height, image_width, _ = image.shape
 
-            params = sp.get_params(results)
-            flat_params = np.reshape(params, (5, 1))
+            if not i%2:
+                results = pose.process(resized_image)
 
-            # params will be run through the model
+                params = sp.get_params(results)
+                flat_params = np.reshape(params, (5, 1))
 
-            output = model.predict(flat_params.T)
+                # params will be run through the model
 
-            output[0][2] *= 3.6
-            output[0][4] *= 3
+                output = model.predict(flat_params.T)
 
-            output = output * (1 / np.sum(output))
+                output[0][1] *= 1.4
+                output[0][2] *= 4
+                output[0][4] *= 3
 
-            output_name = ['c', 'k', 'h', 'r', 'x', 'i']
+                output = output * (1 / np.sum(output))
 
-            label = ""
+                output_name = ['c', 'k', 'h', 'r', 'x', 'i']
 
-            for i in range(1, 4):
-                label += output_name[i] if output[0][i] > 0.4 else ""
+                label = ""
 
-            if label == "":
-                label = "c"
+                for i in range(1, 4):
+                    label += output_name[i] if output[0][i] > 0.4 else ""
 
-            label += 'x' if output[0][4] > 0.04 else ''
+                if label == "":
+                    label = "c"
 
-            # print(label, output)
+                label += 'x' if output[0][4] > 0.34 else ''
 
-            label_final_results(image, label)
+                prev_label=label
+
+                # print(label, output)
+
+            label_final_results(image, prev_label)
+
+            i+=1
 
             # mp_drawing.draw_landmarks(
             #     image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-            coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
+            # coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
             # label_params(image, params, coords)
 
 
