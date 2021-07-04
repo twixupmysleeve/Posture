@@ -1,9 +1,9 @@
 import cv2
 import mediapipe as mp
-import SquatPosture as sp
+import Posture.SquatPosture as sp
 import numpy as np
 import os
-from utils import *
+from Posture.utils import *
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -49,11 +49,11 @@ if __name__ == '__main__':
                 coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
                 # label_params(image, params, coords)
 
-                file.write("{},{},{}\n".format(
+                file.write("{},{},{}, {}\n".format(
                     video_name[0:3],
                     frame_number+1,
                     params[0],
-                    # params[1],
+                    params[1],
                     # params[2],
                     # params[3],
                     # params[4]

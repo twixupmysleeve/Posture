@@ -21,8 +21,8 @@ def get_data():
         inl = next(input_reader)
 
         # print("#########@#@#@")
-        print(outl)
-        print(inl)
+        # print(outl)
+        # print(inl)
         assert outl[0] == inl[0]
         assert outl[1] == inl[1]
 
