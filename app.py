@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_dangerously_set_inner_html
 import mediapipe as mp
 import SquatPosture as sp
 from flask import Flask, Response
@@ -28,8 +29,8 @@ def gen(camera):
             if not success:
                 print("Ignoring empty camera frame.")
                 # If loading a video, use 'break' instead of 'continue'.
-                # continue
-                break
+                continue
+                # break
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
@@ -49,6 +50,8 @@ def gen(camera):
             coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
             label_params(image, params, coords)
 
+            image = cv2.flip(image, 1)
+
             ret, jpeg = cv2.imencode('.jpg', image)
             frame = jpeg.tobytes()
             yield (b'--frame\r\n'
@@ -66,19 +69,29 @@ def video_feed():
     return Response(gen(VideoCamera()) ,mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-app.layout = html.Div([
+app.layout = html.Div(className="main", children=[
     html.Link(
         rel="stylesheet",
-        href="/static/stylesheet.css"
+        href="/assets/stylesheet.css"
     ),
-    html.H2(
-        children= "Webcam Test",
-        className = "head"
-    ),
-    html.Img(
-        src="/video_feed",
-        className = "feed"
-    )
+    dash_dangerously_set_inner_html.DangerouslySetInnerHTML("""
+        <div class="main-container">
+            <table cellspacing="20px" class="table">
+                <tr class="row">
+                    <td> <img src="/assets/animation_for_web.gif" class="logo" /> </td>
+                </tr>
+                <tr class="row">
+                    <td> <img src="/video_feed" class="feed"/> </td>
+                </tr>
+            </table>
+        </div>
+        <div class="button-container">
+            <ul>
+                <li> <button> Squats </button> </li>
+                <li> <button> Planks </button> </li>
+            </ul>
+        </div>
+    """),
 ])
 
 if __name__ == '__main__':
