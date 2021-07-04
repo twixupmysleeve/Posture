@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_dangerously_set_inner_html
 import mediapipe as mp
 import SquatPosture as sp
 from flask import Flask, Response
@@ -66,19 +67,42 @@ def video_feed():
     return Response(gen(VideoCamera()) ,mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-app.layout = html.Div([
+# app.layout = html.Div(className="main", children=[
+#     html.Link(
+#         rel="stylesheet",
+#         href="/static/stylesheet.css"
+#     ),
+#     html.Div(className="container", children=[
+#         html.H2(
+#         children= "Posture",
+#         className = "head"
+#     ),
+#     html.Br(),
+#     html.Img(
+#         src="/video_feed",
+#         className = "feed"
+#     )
+#     ]),
+    
+# ])
+
+app.layout = html.Div(className="main", children=[
     html.Link(
         rel="stylesheet",
         href="/static/stylesheet.css"
     ),
-    html.H2(
-        children= "Webcam Test",
-        className = "head"
-    ),
-    html.Img(
-        src="/video_feed",
-        className = "feed"
-    )
+    dash_dangerously_set_inner_html.DangerouslySetInnerHTML("""
+        <div class="container">
+            <table cellspacing="20px" class="table">
+                <tr class="row">
+                    <td> <h2 class="head"> Posture </h2> </td>
+                </tr>
+                <tr class="row">
+                    <td> <img src="/video_feed" class="feed"/> </td>
+                </tr>
+            </table>
+        </div>
+    """),
 ])
 
 if __name__ == '__main__':
