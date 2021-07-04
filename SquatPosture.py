@@ -27,7 +27,10 @@ def get_length(v):
 def get_params(results, exercise='squats', all=False):
 
     if results.pose_landmarks is None:
-        return np.zeros((1,5) if not all else (19,3))
+        if exercise == 'squats':
+            return np.zeros((1,5) if not all else (19,3))
+        else:
+            return np.array([0])
 
     points = {}
     nose = results.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE]
@@ -147,7 +150,7 @@ def get_params(results, exercise='squats', all=False):
     if exercise=='squats':
         params = np.array([theta_neck, theta_k, theta_h, z, ky])
     elif exercise=='plank':
-        params = np.arrat([theta_s])
+        params = np.array([theta_s])
 
     if all:
         params = np.array([[x, y, z] for pos, (x, y, z) in points.items()]) * length_normalization_factor

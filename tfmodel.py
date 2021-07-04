@@ -2,7 +2,7 @@ import pprint
 
 import pandas as pd
 import tensorflow as tf
-from data_processing.create_data_matrices import get_data
+from data_processing.create_data_matrices_all import get_data
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow import keras
@@ -22,10 +22,12 @@ if not USE_MODEL:
 
     model = tf.keras.Sequential([
         # tf.keras.layers.Dense(1, activation='relu'),
+        tf.keras.layers.Dense(3, activation='relu'),
+        tf.keras.layers.Dense(3, activation='relu'),
         tf.keras.layers.Dense(5, activation='sigmoid'),
     ])
 
-    opt = tf.keras.optimizers.Adam(learning_rate=0.003)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.002, decay=0.00005)
 
     model.compile(loss=tf.keras.losses.MeanSquaredError(),
                   metrics=['accuracy'],
