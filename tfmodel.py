@@ -1,5 +1,4 @@
 import pprint
-
 import pandas as pd
 import tensorflow as tf
 from data_processing.create_data_matrices import get_data
@@ -73,15 +72,3 @@ else:
         for also, pred in preds.items():
             print(actual, also, pred)
             # df[also][]=
-
-
-
-
-
-
-
-
-
-
-
-
