@@ -62,7 +62,9 @@ def gen(camera):
 
 
 server = Flask(__name__)
-app = dash.Dash(__name__, server=server)
+stylesheet = ["./app.css"]
+app = dash.Dash(__name__, server=server, external_stylesheets=stylesheet)
+
 
 
 @server.route('/video_feed')
@@ -72,7 +74,10 @@ def video_feed():
 
 
 app.layout = html.Div([
-    html.H1("Webcam Test"),
+    html.H1(
+        children= "Webcam Test",
+        className= "head"
+    ),
     html.Img(src="/video_feed")
 ])
 
