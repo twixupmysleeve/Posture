@@ -152,7 +152,7 @@ def get_params(results, exercise='squats'):
 
     theta_foot = (theta_right_foot + theta_left_foot) / 2
 
-    if exercise=='squat':
+    if exercise=='squats':
         params = np.array([theta_neck, theta_k, theta_h, z, ky])
     elif exercise=='plank':
         params = np.arrat([theta_s])

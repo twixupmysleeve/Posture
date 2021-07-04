@@ -1,0 +1,9 @@
+.head {
+    font-size: 200px;
+    background-color: wheat;
+    color: pink;
+}
+
+.feed {
+    max-width: 90vw;
+}

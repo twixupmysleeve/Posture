@@ -18,7 +18,6 @@ class VideoCamera(object):
     def __del__(self):
         self.video.release()
 
-
 def gen(camera):
     cap = camera.video
     with mp_pose.Pose(
@@ -32,22 +31,17 @@ def gen(camera):
                 # continue
                 break
 
-            # Flip the image horizontally for a later selfie-view display, and convert
-            # the BGR image to RGB.
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            # To improve performance, optionally mark the image as not writeable to
-            # pass by reference.
             image.flags.writeable = False
+
             results = pose.process(image)
 
-            # Draw the pose annotation on the image.
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            image_hight, image_width, _ = image.shape
+            image_height, image_width, _ = image.shape
 
             params = sp.get_params(results)
-            #print(params)
 
             mp_drawing.draw_landmarks(
                 image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
@@ -62,23 +56,29 @@ def gen(camera):
 
 
 server = Flask(__name__)
-stylesheet = ["./app.css"]
-app = dash.Dash(__name__, server=server, external_stylesheets=stylesheet)
-
+# external_stylesheets = ['./app.css']
+app = dash.Dash(__name__, server=server)
+app.title = "Posture"
 
 
 @server.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen(VideoCamera()) ,mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 app.layout = html.Div([
-    html.H1(
-        children= "Webcam Test",
-        className= "head"
+    html.Link(
+        rel="stylesheet",
+        href="/static/stylesheet.css"
     ),
-    html.Img(src="/video_feed")
+    html.H2(
+        children= "Webcam Test",
+        className = "head"
+    ),
+    html.Img(
+        src="/video_feed",
+        className = "feed"
+    )
 ])
 
 if __name__ == '__main__':
