@@ -45,7 +45,7 @@ def make_figure(n):
     global y_axis_neck, exponentiation
     global x_axis
     global data
-    data = pd.read_csv("visual_plotting.csv")
+    data = pd.read_csv("data/visual_plotting.csv")
     temp_y = np.dot(np.array(data['neck']), exponentiation)
     temp_x = x_axis[-1] + 1
     if len(x_axis) > 200:
