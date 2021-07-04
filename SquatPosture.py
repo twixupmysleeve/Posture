@@ -44,14 +44,14 @@ def get_params(results, exercise='squats', all=False):
     points["LEFT_SHOULDER"] = np.array([left_shoulder.x, left_shoulder.y, left_shoulder.z])
     right_shoulder = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER]
     points["RIGHT_SHOULDER"] = np.array([right_shoulder.x, right_shoulder.y, right_shoulder.z])
-    # left_elbow = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_ELBOW]
-    # points["LEFT_ELBOW"] = np.array([left_elbow.x, left_elbow.y, left_elbow.z])
-    # right_elbow = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ELBOW]
-    # points["RIGHT_ELBOW"] = np.array([right_elbow.x, right_elbow.y, right_elbow.z])
-    # right_wrist = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST]
-    # points["RIGHT_WRIST"] = np.array([right_wrist.x, right_wrist.y, right_wrist.z])
-    # left_wrist = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_WRIST]
-    # points["LEFT_WRIST"] = np.array([left_wrist.x, left_wrist.y, left_wrist.z])
+    left_elbow = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_ELBOW]
+    points["LEFT_ELBOW"] = np.array([left_elbow.x, left_elbow.y, left_elbow.z])
+    right_elbow = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ELBOW]
+    points["RIGHT_ELBOW"] = np.array([right_elbow.x, right_elbow.y, right_elbow.z])
+    right_wrist = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST]
+    points["RIGHT_WRIST"] = np.array([right_wrist.x, right_wrist.y, right_wrist.z])
+    left_wrist = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_WRIST]
+    points["LEFT_WRIST"] = np.array([left_wrist.x, left_wrist.y, left_wrist.z])
     left_hip = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_HIP]
     points["LEFT_HIP"] = np.array([left_hip.x, left_hip.y, left_hip.z])
     right_hip = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP]
@@ -82,13 +82,13 @@ def get_params(results, exercise='squats', all=False):
     theta_neck = get_angle(np.array([0, 0, -1]),
                            points["NOSE"] - points["MID_HIP"])
 
-    # theta_s1 = get_angle(points["LEFT_ELBOW"]-points["LEFT_SHOULDER"],
-    #                      points["LEFT_HIP"]-points["LEFT_SHOULDER"])
-    #
-    # theta_s2 = get_angle(points["RIGHT_ELBOW"] - points["RIGHT_SHOULDER"],
-    #                      points["RIGHT_HIP"] - points["RIGHT_SHOULDER"])
-    #
-    # theta_s = (theta_s1 + theta_s2) / 2
+    theta_s1 = get_angle(points["LEFT_ELBOW"]-points["LEFT_SHOULDER"],
+                         points["LEFT_HIP"]-points["LEFT_SHOULDER"])
+
+    theta_s2 = get_angle(points["RIGHT_ELBOW"] - points["RIGHT_SHOULDER"],
+                         points["RIGHT_HIP"] - points["RIGHT_SHOULDER"])
+
+    theta_s = (theta_s1 + theta_s2) / 2
 
     z_face = z_eyes - z_mouth
 

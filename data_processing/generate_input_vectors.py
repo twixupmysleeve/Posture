@@ -9,17 +9,17 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 if __name__ == '__main__':
-    directory = './data/processed/'
+    directory = './data/plank_processed'
 
     video_names = sorted(os.listdir(directory))
 
     # videos_to_use = ["000","001","002","003","004","005","006","007","008","009","010","023"]
     # video_names = [video + "_squat.mp4" for video in videos_to_use]
 
-    file = open("./data/input_vectors.csv", "w")
+    file = open("./data/input_vectors_plank.csv", "w")
 
     for video_name in video_names:
-        cap = cv2.VideoCapture("./data/processed/" + video_name)
+        cap = cv2.VideoCapture("./data/plank__processed" + video_name)
         frame_number = 0
         with mp_pose.Pose(
                 min_detection_confidence=0.5,
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
                 image_hight, image_width, _ = image.shape
 
-                params = sp.get_params(results)
+                params = sp.get_params(results, exercise="plank")
 
                 mp_drawing.draw_landmarks(
                     image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
@@ -53,10 +53,10 @@ if __name__ == '__main__':
                     video_name[0:3],
                     frame_number+1,
                     params[0],
-                    params[1],
-                    params[2],
-                    params[3],
-                    params[4]
+                    # params[1],
+                    # params[2],
+                    # params[3],
+                    # params[4]
                 ))
                 file.flush()
                 frame_number += 1
