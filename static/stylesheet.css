@@ -1,9 +1,60 @@
+@font-face {
+    font-family: "Biotif";
+    src: url(./Biotif-Bold.ttf);
+}
+
+* {
+    margin: 0;
+    background-color: #013e54;
+}
+
+body {
+    font-family: "Biotif";
+}
+
+.main {
+    /* background-color: #013e54; */
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
 .head {
-    font-size: 200px;
-    background-color: wheat;
-    color: pink;
+    display: flex;
+    font-size: 75px;
+    color: white;
 }
 
 .feed {
-    max-width: 90vw;
+    display: flex;
+    max-width: 65vw;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 2px solid white;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.table {
+    margin: auto;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
