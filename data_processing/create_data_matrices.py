@@ -3,8 +3,8 @@ import numpy as np
 
 
 def get_data():
-    output_vectors = open('data/output_vectors.csv')
-    input_vectors = open('data/input_vectors.csv')
+    output_vectors = open('../data/output_vectors.csv')
+    input_vectors = open('../data/input_vectors.csv')
 
     output_reader = csv.reader(output_vectors, delimiter=',')
     input_reader = csv.reader(input_vectors, delimiter=',')

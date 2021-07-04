@@ -1,5 +1,5 @@
 from network import Model
-from create_data_matrices import get_data
+from Posture.data_processing.create_data_matrices import get_data
 import torch as T
 import matplotlib.pyplot as plt
 from torch import optim

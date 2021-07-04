@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../../')
+
 import cv2
 import mediapipe as mp
 import SquatPosture as sp
@@ -16,7 +19,7 @@ if __name__ == '__main__':
     # videos_to_use = ["000","001","002","003","004","005","006","007","008","009","010","023"]
     # video_names = [video + "_squat.mp4" for video in videos_to_use]
 
-    file = open("data/input_vectors.csv", "w")
+    file = open("../data/input_vectors.csv", "w")
 
     for video_name in video_names:
         cap = cv2.VideoCapture("data/processed/" + video_name)
