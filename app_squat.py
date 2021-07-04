@@ -6,11 +6,13 @@ import mediapipe as mp
 import SquatPosture as sp
 from flask import Flask, Response
 import cv2
+import tensorflow as tf
 import numpy as np
-from utils import landmarks_list_to_array, label_params
+from utils import landmarks_list_to_array, label_params, label_final_results
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
+model = tf.keras.models.load_model("working_model_1")
 
 class VideoCamera(object):
     def __init__(self):
@@ -26,6 +28,8 @@ def gen(camera):
             min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
             success, image = cap.read()
+            image = cv2.flip(image, 1)
+
             if not success:
                 print("Ignoring empty camera frame.")
                 # If loading a video, use 'break' instead of 'continue'.
@@ -43,14 +47,39 @@ def gen(camera):
             image_height, image_width, _ = image.shape
 
             params = sp.get_params(results)
+            flat_params = np.reshape(params, (5, 1))
 
-            mp_drawing.draw_landmarks(
-                image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            # params will be run through the model
+
+            output = model.predict(flat_params.T)
+
+            output[0][2] *= 3.6
+            output[0][4] *= 3
+
+            output = output * (1 / np.sum(output))
+
+            output_name = ['c', 'k', 'h', 'r', 'x', 'i']
+
+            label = ""
+
+            for i in range(1, 4):
+                label += output_name[i] if output[0][i] > 0.4 else ""
+
+            if label == "":
+                label = "c"
+
+            label += 'x' if output[0][4] > 0.04 else ''
+
+            # print(label, output)
+
+            label_final_results(image, label)
+
+            # mp_drawing.draw_landmarks(
+            #     image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
             coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
-            label_params(image, params, coords)
+            # label_params(image, params, coords)
 
-            image = cv2.flip(image, 1)
 
             ret, jpeg = cv2.imencode('.jpg', image)
             frame = jpeg.tobytes()

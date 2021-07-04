@@ -59,9 +59,11 @@ def label_final_results(image, label):
     label_list = [character for character in label]
     described_label = list(map(lambda x: expanded_labels[x], label_list))
 
+    color = (42, 210, 48) if "c" in label_list else (13, 13, 205)
+
     cv2.rectangle(image,
         (0, 0), (image_height, 74),
-        (245, 117, 16),
+        color,
         -1
     )
 

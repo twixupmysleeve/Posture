@@ -28,7 +28,7 @@ def get_params(results, exercise='squats', all=False):
 
     if results.pose_landmarks is None:
         if exercise == 'squats':
-            return np.zeros((1,5) if not all else (19,3))
+            return np.zeros((1, 5) if not all else (19,3))
         else:
             return np.array([0, 0])
 

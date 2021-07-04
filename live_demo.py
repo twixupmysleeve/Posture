@@ -101,6 +101,5 @@ with mp_pose.Pose() as pose:
 
         if cv2.waitKey(5) & 0xFF == 27:
             break
-csv_file.close()
 cap.release()
 cv2.destroyAllWindows()
