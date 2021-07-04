@@ -14,7 +14,7 @@ rows = []
 
 fps = 12
 
-with open('data/labels.csv') as csv_file:
+with open('../data/labels.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for r in csv_reader:
@@ -24,7 +24,7 @@ with open('data/labels.csv') as csv_file:
     print(f'Processed {line_count} lines.')
 
 
-file = open("data/output_vectors.csv", "w")
+file = open("../data/output_vectors.csv", "w")
 frame_number = 0
 for row in rows:
     if "end" in row[1]:

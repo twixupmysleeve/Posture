@@ -8,8 +8,8 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # For video input:
+# cap = cv2.VideoCapture("data/processed/024_squat.mp4")
 cap = cv2.VideoCapture(0)
-
 
 with mp_pose.Pose(
         min_detection_confidence=0.5,
@@ -36,14 +36,14 @@ with mp_pose.Pose(
 
         image_hight, image_width, _ = image.shape
 
-        params = sp.get_params(results)
-        # print(params)
+        params = sp.get_params(results, all=True)
+        print(params)
 
         mp_drawing.draw_landmarks(
             image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
         coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
-        label_params(image, params, coords)
+        # label_params(image, params, coords)
 
         cv2.imshow('MediaPipe Pose', image)
 

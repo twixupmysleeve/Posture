@@ -24,10 +24,13 @@ def get_length(v):
     return np.dot(v, v)**0.5
 
 
-def get_params(results, exercise='squats'):
+def get_params(results, exercise='squats', all=False):
 
     if results.pose_landmarks is None:
-        return np.array([0, 0, 0, 0, 0])
+        if exercise == 'squats':
+            return np.zeros((1,5) if not all else (19,3))
+        else:
+            return np.array([0])
 
     points = {}
     nose = results.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE]
@@ -108,14 +111,6 @@ def get_params(results, exercise='squats'):
 
     theta_h = (theta_h1 + theta_h2) / 2
 
-    theta_e1 = get_angle(points["RIGHT_WRIST"] - points["RIGHT_ELBOW"],
-                         points["RIGHT_SHOULDER"] - points["RIGHT_ELBOW"])
-
-    theta_e2 = get_angle(points["LEFT_WRIST"] - points["LEFT_ELBOW"],
-                         points["LEFT_SHOULDER"] - points["LEFT_ELBOW"])
-
-    theta_e = (theta_e1 + theta_e2) / 2
-
     torso_length = get_length(points['MID_SHOULDER'] - points['MID_HIP'])
     left_thigh_length = get_length(points['LEFT_KNEE'] - points['LEFT_HIP'])
     right_thigh_length = get_length(points['RIGHT_KNEE'] - points['RIGHT_HIP'])
@@ -155,6 +150,9 @@ def get_params(results, exercise='squats'):
     if exercise=='squats':
         params = np.array([theta_neck, theta_k, theta_h, z, ky])
     elif exercise=='plank':
-        params = np.arrat([theta_s])
+        params = np.array([theta_s])
+
+    if all:
+        params = np.array([[x, y, z] for pos, (x, y, z) in points.items()]) * length_normalization_factor
 
     return np.round(params, 2)
