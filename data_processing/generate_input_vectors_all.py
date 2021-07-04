@@ -19,7 +19,7 @@ if __name__ == '__main__':
     file = open("./data/input_vectors.csv", "w")
 
     for video_name in video_names:
-        cap = cv2.VideoCapture("./data/processed/" + video_name)
+        cap = cv2.VideoCapture("data/processed/" + video_name)
         frame_number = 0
         with mp_pose.Pose(
                 min_detection_confidence=0.5,
@@ -41,24 +41,25 @@ if __name__ == '__main__':
 
                 image_hight, image_width, _ = image.shape
 
-                params = sp.get_params(results)
+                params = sp.get_params(results, all=True)
 
                 mp_drawing.draw_landmarks(
                     image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
                 coords = landmarks_list_to_array(results.pose_landmarks, image.shape)
-                label_params(image, params, coords)
+                # label_params(image, params, coords)
 
-                file.write("{},{},{},{},{},{},{}\n".format(
+                input_vector = params.flatten()
+
+                line = "{},{},".format(
                     video_name[0:3],
                     frame_number+1,
-                    params[0],
-                    params[1],
-                    params[2],
-                    params[3],
-                    params[4]
-                ))
-                file.flush()
+                )
+
+                for i in input_vector:
+                    line += str(np.round(i, 3)) + ","
+
+                file.write(line+"\n")
                 frame_number += 1
 
                 cv2.imshow('MediaPipe Pose', image)
@@ -68,6 +69,7 @@ if __name__ == '__main__':
 
         cap.release()
         print(video_name)
+        file.flush()
 
     file.close()
 

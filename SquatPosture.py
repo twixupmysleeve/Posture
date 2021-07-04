@@ -150,6 +150,6 @@ def get_params(results, exercise='squats', all=False):
         params = np.arrat([theta_s])
 
     if all:
-        params = np.array([[x, y, z] for pos, (x, y, z) in points.items()])
+        params = np.array([[x, y, z] for pos, (x, y, z) in points.items()]) * length_normalization_factor
 
     return np.round(params, 2)
