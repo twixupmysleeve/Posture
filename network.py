@@ -26,7 +26,7 @@ class Model(nn.Module):
     def __init__(self, input_dims=5, n_actions=5, fc1_dims=8, fc2_dims=8, lr=0.003):
         super(Model, self).__init__()
 
-        self.input =  nn.Linear(input_dims, fc1_dims)
+        self.input = nn.Linear(input_dims, fc1_dims)
         self.fc1 = nn.Linear(fc1_dims, fc2_dims)
         self.output = nn.Linear(fc2_dims, n_actions)
 
