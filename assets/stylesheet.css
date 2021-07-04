@@ -66,6 +66,15 @@ body {
     margin: 2px;
 }
 
+.disclaimer {
+    color: white;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+}
+
 .table {
     margin: auto;
     width: auto;

@@ -16,7 +16,7 @@ model = tf.keras.models.load_model("working_model_1")
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture('./data/demo_files/correct.mov')
+        self.video = cv2.VideoCapture(0)
 
     def __del__(self):
         self.video.release()
@@ -49,40 +49,43 @@ def gen(camera):
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+            results = pose.process(resized_image)
 
-            if not i%2:
-                results = pose.process(resized_image)
+            params = sp.get_params(results)
+            flat_params = np.reshape(params, (5, 1))
 
-                params = sp.get_params(results)
-                flat_params = np.reshape(params, (5, 1))
+            # params will be run through the model
 
-                # params will be run through the model
+            output = model.predict(flat_params.T)
 
-                output = model.predict(flat_params.T)
+            output[0][0] *= 0.7
+            output[0][1] *= 1.7
+            output[0][2] *= 4
+            output[0][3] *= 0
+            output[0][4] *= 5
 
-                output[0][1] *= 1.4
-                output[0][2] *= 4
-                output[0][4] *= 3
+            output = output * (1 / np.sum(output))
 
-                output = output * (1 / np.sum(output))
+            output_name = ['c', 'k', 'h', 'r', 'x', 'i']
 
-                output_name = ['c', 'k', 'h', 'r', 'x', 'i']
+            output[0][2] += 0.1
 
-                label = ""
+            print(output[0][2], output[0][3])
 
-                for i in range(1, 4):
-                    label += output_name[i] if output[0][i] > 0.4 else ""
+            label = ""
 
-                if label == "":
-                    label = "c"
+            for i in range(1, 4):
+                label += output_name[i] if output[0][i] > 0.5 else ""
 
-                label += 'x' if output[0][4] > 0.34 else ''
+            if label == "":
+                label = "c"
 
-                prev_label=label
+            label += 'x' if output[0][4] > 0.15 and label=='c' else ''
 
-                # print(label, output)
 
-            label_final_results(image, prev_label)
+            # print(label, output)
+
+            label_final_results(image, label)
 
             i+=1
 
@@ -122,10 +125,13 @@ app.layout = html.Div(className="main", children=[
                     <td> <img src="/assets/animation_for_web.gif" class="logo" /> </td>
                 </tr>
                 <tr class="choices">
-                    <td> Squats </td>
+                    <td> Your personal AI Gym Trainer </td>
                 </tr>
                 <tr class="row">
                     <td> <img src="/video_feed" class="feed"/> </td>
+                </tr>
+                <tr class="disclaimer">
+                    <td> Please ensure that the scene is well lit and your entire body is visible </td>
                 </tr>
             </table>
         </div>

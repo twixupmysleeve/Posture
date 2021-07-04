@@ -48,9 +48,9 @@ def label_params(frame, params, coords):
 def label_final_results(image, label):
     expanded_labels = {
         "c": "Correct Form",
-        "k": "Knee Ahead",
-        "h": "Overbending",
-        "r": "Rounded",
+        "k": "Knee Ahead, push your butt out",
+        "h": "Back Wrongly Positioned, keep your chest up",
+        "r": "Back Wrongly Positioned, keep your chest up",
         "x": "Correct Depth"
     }
 
@@ -68,7 +68,7 @@ def label_final_results(image, label):
     )
 
     cv2.putText(
-        image, " + ".join(word for word in described_label),
+        image, "   "+" + ".join(word for word in described_label),
         (0, 43),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.6,
