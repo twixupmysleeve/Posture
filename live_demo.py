@@ -7,11 +7,18 @@ import tensorflow as tf
 from utils import *
 from csv import writer
 
-csv_file = open('plotting_live.csv', 'w+')
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-writer_object = writer(csv_file)
-writer_object.writerow(['neck', 'knee', 'hip', 'ankle', 'y-knee'])
+
+# df = pd.DataFrame([[0, 0, 0, 0, 0]], columns=['neck', 'knee', 'hip', 'ankle', 'y-knee'])
+# df.to_csv('plot_data.csv', index=False)
+
+dict = {'neck': [],
+        'knee': [],
+        'hip': [],
+        'ankle': [],
+        'y-knee': []
+        }
 
 # For video input:
 cap = cv2.VideoCapture(0)
@@ -46,10 +53,23 @@ with mp_pose.Pose() as pose:
 
         flat_params = np.reshape(params, (5, 1))
 
-        #if counter_for_renewal > 100:
-            #csv_file.truncate(1)
-        writer_object.writerow(flat_params.T.flatten())
-        csv_file.flush()
+        # if counter_for_renewal > 100:
+        # csv_file.truncate(1)
+        if len((dict['neck'])) > 10:
+            dict['neck'].pop(0)
+            dict['knee'].pop(0)
+            dict['hip'].pop(0)
+            dict['ankle'].pop(0)
+            dict['y-knee'].pop(0)
+        else:
+            dict['neck'].append(flat_params.flatten().T[0])
+            dict['knee'].append(flat_params.flatten().T[1])
+            dict['hip'].append(flat_params.flatten().T[2])
+            dict['ankle'].append(flat_params.flatten().T[3])
+            dict['y-knee'].append(flat_params.flatten().T[3])
+
+        df = pd.DataFrame.from_dict(dict)
+        df.to_csv('visual_plotting.csv', index=False)
 
         counter_for_renewal += 1
         # print(flat_params)
