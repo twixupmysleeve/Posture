@@ -80,16 +80,13 @@ app.layout = html.Div(className="main", children=[
                 <tr class="row">
                     <td> <img src="/assets/animation_for_web.gif" class="logo" /> </td>
                 </tr>
+                <tr class="choices">
+                    <td> Squats </td>
+                </tr>
                 <tr class="row">
                     <td> <img src="/video_feed" class="feed"/> </td>
                 </tr>
             </table>
-        </div>
-        <div class="button-container">
-            <ul>
-                <li> <button> Squats </button> </li>
-                <li> <button> Planks </button> </li>
-            </ul>
         </div>
     """),
 ])
