@@ -27,9 +27,7 @@ body {
 }
 
 .logo {
-    width: 40vw;
-    height: 17vh;
-    object-fit: cover;
+    height: 20vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,12 +52,8 @@ body {
 }
 
 .button-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    position: fixed;
+    z-index: 1;
 }
 .table {
     margin: auto;

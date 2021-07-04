@@ -72,13 +72,13 @@ def video_feed():
 app.layout = html.Div(className="main", children=[
     html.Link(
         rel="stylesheet",
-        href="/static/stylesheet.css"
+        href="/assets/stylesheet.css"
     ),
     dash_dangerously_set_inner_html.DangerouslySetInnerHTML("""
         <div class="main-container">
             <table cellspacing="20px" class="table">
                 <tr class="row">
-                    <td> <img src="/static/" class="logo" /> </td>
+                    <td> <img src="/assets/animation_for_web.gif" class="logo" /> </td>
                 </tr>
                 <tr class="row">
                     <td> <img src="/video_feed" class="feed"/> </td>
