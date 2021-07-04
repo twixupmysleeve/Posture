@@ -1,18 +1,23 @@
 import cv2
 import mediapipe as mp
 import SquatPosture as sp
+import pandas as pd
 import numpy as np
 import tensorflow as tf
 from utils import *
+from csv import writer
 
+csv_file = open('plotting_live.csv', 'w+')
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
+writer_object = writer(csv_file)
+writer_object.writerow(['neck', 'knee', 'hip', 'ankle', 'y-knee'])
 
 # For video input:
 cap = cv2.VideoCapture(0)
 
 model = tf.keras.models.load_model("working_model_1")
-
+counter_for_renewal = 0
 with mp_pose.Pose() as pose:
     while cap.isOpened():
         success, image = cap.read()
@@ -39,8 +44,14 @@ with mp_pose.Pose() as pose:
             print("NO HUMAN!")
             continue
 
-        flat_params = np.reshape(params, (5,1))
+        flat_params = np.reshape(params, (5, 1))
 
+        #if counter_for_renewal > 100:
+            #csv_file.truncate(1)
+        writer_object.writerow(flat_params.T.flatten())
+        csv_file.flush()
+
+        counter_for_renewal += 1
         # print(flat_params)
 
         output = model.predict(flat_params.T)
@@ -48,13 +59,13 @@ with mp_pose.Pose() as pose:
         output[0][2] *= 10
         output[0][4] *= 3
 
-        output = output * (1/np.sum(output))
+        output = output * (1 / np.sum(output))
 
-        output_name = ['c','k','h','r','x','i']
+        output_name = ['c', 'k', 'h', 'r', 'x', 'i']
 
         label = ""
 
-        for i in range(1,4):
+        for i in range(1, 4):
             label += output_name[i] if output[0][i] > 0.4 else ""
 
         if label == "":
@@ -62,7 +73,7 @@ with mp_pose.Pose() as pose:
 
         label += 'x' if output[0][4] > 0.04 else ''
 
-        print(label, output)
+        # print(label, output)
 
         label_final_results(image, label)
 
@@ -70,6 +81,6 @@ with mp_pose.Pose() as pose:
 
         if cv2.waitKey(5) & 0xFF == 27:
             break
-
+csv_file.close()
 cap.release()
 cv2.destroyAllWindows()
