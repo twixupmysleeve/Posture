@@ -61,14 +61,5 @@ else:
     model = tf.keras.models.load_model("working_model_1")
     preds = model.predict(test_features)
 
-    # cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
-    # print(cm.table)
-
-
-    df = pd.DataFrame()
-    # df.set_index(keys=[], inplace=True)
-
-    for actual, preds in cm.table.items():
-        for also, pred in preds.items():
-            print(actual, also, pred)
-            # df[also][]=
+    cm = ConfusionMatrix(actual_vector=test_labels[0], predict_vector=preds[0])
+    print(cm.table)
