@@ -70,7 +70,7 @@ def gen(camera):
 
             output[0][2] += 0.1
 
-            print(output[0][2], output[0][3])
+            # print(output[0][2], output[0][3])
 
             label = ""
 
